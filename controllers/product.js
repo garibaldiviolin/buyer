@@ -52,7 +52,6 @@ exports.product_update = function (req, res) {
 
 exports.product_delete = function (req, res) {
     Product.findOneAndDelete(req.params.id, function (err, car) {
-        if (err) return res.status(404).send({error: "not found"});
         res.status(204).send();
     })
 };
