@@ -41,8 +41,9 @@ exports.product_details = function (req, res) {
 };
 
 exports.product_update = function (req, res) {
-    Product.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, product) {
+    Product.findOneAndReplace(req.params.id, {$set: req.body}, function (err, product) {
         if (err) return next(err);
+    }).then((product) => {
         res.send(product);
     });
 };
