@@ -12,6 +12,8 @@ describe('API Tests', function() {
     "name": "OK",
     "price": 10
   };
+
+  // Create Products (POST) endpoint
   describe('## Create product ', function() {
     it('should create a product', function(done) {
       request(app) .post('/products/create') .send(product) .end(function(err, res) {
@@ -37,6 +39,7 @@ describe('API Tests', function() {
     });
   });
 
+  // Detail Single Product (GET) endpoint
   describe('## Get product ', function() {
     it('should get a product', function(done) {
       var product = new Product(
@@ -70,6 +73,7 @@ describe('API Tests', function() {
     });
   });
 
+  // List Products (GET) endpoint
   describe('## List products ', function() {
     it('should NOT return any product', function(done) {
       request(app) .get('/products/list') .send() .end(function(err, res) {
