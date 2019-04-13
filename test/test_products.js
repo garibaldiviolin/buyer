@@ -155,7 +155,7 @@ describe('API Tests', function() {
         });
     });
 
-    it('should NOT update a product', function(done) {
+    it('should NOT find or update a product', function(done) {
       const new_values = {
         name: "New name",
         price: 45.42
