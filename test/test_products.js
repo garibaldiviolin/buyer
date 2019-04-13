@@ -16,7 +16,6 @@ describe('API Tests', function() {
     it('should create a product', function(done) {
       request(app) .post('/products/create') .send(product) .end(function(err, res) {
         expect(res.statusCode).to.equal(201);
-        expect(1).to.equal(1);
         const product_query = Product.findById(res.body._id, function (err, object) {
           if (err) {
             return null;
