@@ -78,6 +78,34 @@ describe('API Tests', function() {
         done();
       });
     });
+
+    it('should get a product', function(done) {
+      const array = [
+        {name: "Jelly", price: 47.21},
+        {name: "John", price: 32.41}
+      ];
+      Product.insertMany(array)
+        .then(function (docs) {
+          request(app) .get('/products/list') .send() .end(function(err, res) {
+            var productsList = [];
+
+            docs.forEach(function(product) {
+                productsList.push({
+                  _id: product._id.toString(),
+                  name: product.name,
+                  price: product.price
+                });
+            });
+
+            expect(res.statusCode).to.equal(200);
+            expect(productsList).to.deep.equal(res.body);
+            done();
+          });
+        })
+        .catch(function (err) {
+          done(err);
+        });
+    });
   });
 
 });
