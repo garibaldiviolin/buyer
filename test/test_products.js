@@ -28,6 +28,13 @@ describe('API Tests', function() {
         });
       });
     });
+
+    it('should NOT create a product', function(done) {
+      request(app) .post('/products/create') .send() .end(function(err, res) {
+        expect(res.statusCode).to.equal(500);
+        done();
+      });
+    });
   });
 
   describe('## Get product ', function() {
