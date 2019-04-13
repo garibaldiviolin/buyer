@@ -154,6 +154,20 @@ describe('API Tests', function() {
             done(err);
         });
     });
+
+    it('should NOT update a product', function(done) {
+      const new_values = {
+        name: "New name",
+        price: 45.42
+      }
+
+      request(app) .put('/products/INVALID_ID/update') .send(new_values) .end(function(err, res) {
+        expect(res.statusCode).to.equal(404);
+        expect(res.body).to.deep.equal({ error: 'not found'});
+        done();
+      });
+    });
+
   });
 
 });
