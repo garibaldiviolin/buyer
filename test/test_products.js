@@ -79,7 +79,7 @@ describe('API Tests', function() {
       });
     });
 
-    it('should get a product', function(done) {
+    it('should return products', function(done) {
       const array = [
         {name: "Jelly", price: 47.21},
         {name: "John", price: 32.41}
