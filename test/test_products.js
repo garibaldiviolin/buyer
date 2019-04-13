@@ -54,6 +54,13 @@ describe('API Tests', function() {
             done(err);
         });
     });
+
+    it('should NOT get a product', function(done) {
+      request(app) .get('/products/INVALID_ID') .send() .end(function(err, res) {
+        expect(res.statusCode).to.equal(404);
+        done();
+      });
+    });
   });
 
 });
