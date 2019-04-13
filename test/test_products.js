@@ -194,4 +194,51 @@ describe('API Tests', function() {
 
   });
 
+  // Delete product (DELETE) endpoint
+  describe('## Delete product ', function() {
+    it('should delete a product', function(done) {
+      var product = new Product(
+        {
+            name: "deleting product",
+            price: 100.49
+        }
+      );
+
+      product
+        .save()
+        .then(doc => {
+          request(app) .delete('/products/' + doc._id.toString() + '/delete') .send() .end(function(err, res) {
+            expect(res.statusCode).to.equal(204);
+            expect({}).to.deep.equal(res.body);
+
+            const product_query = Product.findById(doc._id, function (err, object) {
+              console.log('entrou aqui');
+              if (err) done(err);
+            }).then((deleted_product) => {
+              if (!deleted_product) return done();
+              console.log(deleted_product);
+              done('Product still exists!');
+            }).catch(err => {
+              done();
+            });
+          });
+        })
+        .catch(err => {
+          done(err);
+        });
+    });
+
+    it('should NOT delete a product', function(done) {
+      const new_values = {
+        name: "New name",
+        price: 45.42
+      }
+
+      request(app) .put('/products/INVALID_ID/delete') .send(new_values) .end(function(err, res) {
+        expect(res.statusCode).to.equal(404);
+        done();
+      });
+    });
+  });
+
 });
