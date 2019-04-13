@@ -36,6 +36,5 @@ beforeEach(function (done) {
 
 //run once after all tests
 afterEach(function (done) {
-    console.log('Deleting test database');
     mongoose.connection.db.dropDatabase(done);
 });
