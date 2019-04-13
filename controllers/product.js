@@ -52,7 +52,7 @@ exports.product_update = function (req, res) {
 
 exports.product_delete = function (req, res) {
     Product.findByIdAndRemove(req.params.id, function (err) {
-        if (err) return next(err);
+        if (err) return res.status(404).send({error: "not found"});
         res.status(204).send();
     })
 };
