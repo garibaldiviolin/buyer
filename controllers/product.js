@@ -38,7 +38,10 @@ exports.product_list = function (req, res) {
 
 exports.product_details = function (req, res) {
     Product.findById(req.params.id, function (err, product) {
-        if (err) return next(err);
+        if (err) {
+            res.status(404).send({ error: err });
+            return;
+        }
         res.send(product);
     })
 };
