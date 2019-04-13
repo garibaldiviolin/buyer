@@ -42,8 +42,11 @@ exports.product_details = function (req, res) {
 
 exports.product_update = function (req, res) {
     Product.findOneAndReplace(req.params.id, {$set: req.body}, function (err, product) {
-        if (err) return next(err);
+        if (err) {
+            res.status(400).send({ error: err });
+        }
     }).then((product) => {
+        if (!product) return res.status(404).send({ error: 'not found'});
         res.send(product);
     });
 };
