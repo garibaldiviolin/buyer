@@ -3,7 +3,8 @@
 var app = require('../app'),
   chai = require('chai'),
   request = require('supertest'),
-  Product = require('../models/product');
+  Product = require('../models/product'),
+  test = require('../config/test');
 
 var expect = chai.expect;
 describe('API Tests', function() {
@@ -65,6 +66,16 @@ describe('API Tests', function() {
     it('should NOT get a product', function(done) {
       request(app) .get('/products/INVALID_ID') .send() .end(function(err, res) {
         expect(res.statusCode).to.equal(404);
+        done();
+      });
+    });
+  });
+
+  describe('## List products ', function() {
+    it('should NOT return any product', function(done) {
+      request(app) .get('/products/list') .send() .end(function(err, res) {
+        expect(res.statusCode).to.equal(200);
+        expect([]).to.deep.equal(res.body);
         done();
       });
     });
