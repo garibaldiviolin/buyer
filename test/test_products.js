@@ -139,7 +139,15 @@ describe('API Tests', function() {
 
             expect(res.statusCode).to.equal(200);
             expect(productsList).to.deep.equal(res.body);
-            done();
+
+            const product_query = Product.findById(doc._id, function (err, object) {
+              if (err) done(err);
+            }).then((updated_product) => {
+              expect(updated_product._id.toString()).to.equal(res.body._id.toString());
+              expect(updated_product.name).to.equal(res.body.name);
+              expect(updated_product.price).to.equal(res.body.price);
+              done();
+            });
           });
         })
         .catch(err => {
