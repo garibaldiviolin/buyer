@@ -155,6 +155,30 @@ describe('API Tests', function() {
         });
     });
 
+    it('should NOT update a product', function(done) {
+      var product = new Product(
+        {
+            name: "Old name",
+            price: 100.49
+        }
+      );
+
+      // Invalid
+      const new_values = {}
+
+      product
+        .save()
+        .then(doc => {
+          request(app) .put('/products/' + doc._id.toString() + '/update') .send(new_values) .end(function(err, res) {
+            expect(res.statusCode).to.equal(400);
+            done();
+          });
+        })
+        .catch(err => {
+          done(err);
+        });
+    });
+
     it('should NOT find or update a product', function(done) {
       const new_values = {
         name: "New name",
