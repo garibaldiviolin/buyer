@@ -151,7 +151,7 @@ describe('API Tests', function() {
           });
         })
         .catch(err => {
-            done(err);
+          done(err);
         });
     });
 
