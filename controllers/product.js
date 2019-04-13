@@ -19,7 +19,6 @@ exports.product_create = function (req, res) {
             res.status(201).send(doc.toJSON());
         })
         .catch(err => {
-            console.log(err);
             res.status(500).send({ error: err });
         });
 };
