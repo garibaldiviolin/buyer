@@ -12,7 +12,7 @@ describe('API Tests', function() {
     "price": 10
   };
   describe('## Create product ', function() {
-    it('should get a product', function(done) {
+    it('should create a product', function(done) {
       request(app) .post('/products/create') .send(product) .end(function(err, res) {
         expect(res.statusCode).to.equal(201);
         expect(1).to.equal(1);
