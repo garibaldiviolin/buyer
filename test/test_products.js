@@ -112,4 +112,40 @@ describe('API Tests', function() {
     });
   });
 
+  // Update product (PUT) endpoint
+  describe('## Update product ', function() {
+    it('should update a product', function(done) {
+      var product = new Product(
+        {
+            name: "Old name",
+            price: 100.49
+        }
+      );
+
+      const new_values = {
+        name: "New name",
+        price: 45.42
+      }
+
+      product
+        .save()
+        .then(doc => {
+          request(app) .put('/products/' + doc._id.toString() + '/update') .send(new_values) .end(function(err, res) {
+            var productsList = {
+              _id: doc._id.toString(),
+              name: "New name",
+              price: 45.42
+            };
+
+            expect(res.statusCode).to.equal(200);
+            expect(productsList).to.deep.equal(res.body);
+            done();
+          });
+        })
+        .catch(err => {
+            done(err);
+        });
+    });
+  });
+
 });
