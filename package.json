@@ -4,9 +4,9 @@
   "description": "A quotation application that shows several purchasing options",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon src/app.js",
     "test": "NODE_ENV=test _mocha --timeout 10000",
-    "test-coverage": "NODE_ENV=test istanbul cover --report html _mocha -- -R spec --exit"
+    "test-coverage": "NODE_ENV=test istanbul cover --report html _mocha -- -R spec --exit --recursive src/test/"
   },
   "keywords": [
     "buyer"
