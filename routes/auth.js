@@ -14,12 +14,10 @@ router.post('/token', function(req, res) {
     console.log(req.body.username);
     console.log(req.body.password);
     if (req.body.username && req.body.password) {
-        console.log('Aqui');
         var username = req.body.username;
         var password = req.body.password;
 
         var query = User.findOne({"username": username}).then(function (user) {
-            console.log("Achou user");
             user.comparePassword(password, function(err, isMatch) {
                 if (err) return res.sendStatus(401);
                 if (!isMatch) return res.sendStatus(401);
@@ -30,7 +28,6 @@ router.post('/token', function(req, res) {
         });
     }
     else {
-        console.log("saiu 2");
         res.sendStatus(401);
     }
 });
