@@ -11,23 +11,22 @@ var User = require('../models/user');
 var user_controller = require("../controllers/auth");
 
 router.post('/token', function(req, res) {
-    console.log(req.body.email);
+    console.log(req.body.username);
     console.log(req.body.password);
-    if (req.body.email && req.body.password) {
+    if (req.body.username && req.body.password) {
         console.log('Aqui');
-        var email = req.body.email;
+        var username = req.body.username;
         var password = req.body.password;
 
-        var query = User.findOne({"email": email, "password": password}).then(function (user) {
-            console.log("user"+user);
-            if (user && user.password == password) {
+        var query = User.findOne({"username": username}).then(function (user) {
+            console.log("Achou user");
+            user.comparePassword(password, function(err, isMatch) {
+                if (err) return res.sendStatus(401);
+                if (!isMatch) return res.sendStatus(401);
                 var payload = {id: user._id};
                 var token = jwt.encode(payload, cfg.jwtSecret);
                 res.json({token: token});
-            } else {
-                console.log("saiu aqui");
-                res.sendStatus(401);
-            }
+            });
         });
     }
     else {
