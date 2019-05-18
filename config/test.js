@@ -13,25 +13,7 @@ var deleteAfterRun = false;
 
 //run once before all tests
 beforeEach(function (done) {
-
-    //test if database is populated
-    /*var User = mongoose.model('User');
-    User.count({})
-        .then(function (count) {
-            if (count === 0) {
-                //no content so safe to delete
-                deleteAfterRun = true;
-                //add test data
-                return fixtures.ensureTestData();
-            } else {
-                console.log('Test database already exists');
-            }
-        })
-        .then(function() {
-            done();
-        });*/
     done();
-
 });
 
 //run once after all tests
