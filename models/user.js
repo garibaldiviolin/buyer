@@ -12,7 +12,7 @@ UserSchema.methods.toJSON = function() {
     var obj = this.toObject();
 
     Object.keys(obj).forEach(function(element, key, _array) {
-        if (['_id', 'user'].includes(element) == false) {
+        if (['_id', 'username'].includes(element) == false) {
             delete obj[element];
         }
     });
