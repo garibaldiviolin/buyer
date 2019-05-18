@@ -7,7 +7,6 @@ var router = express.Router();
 
 var User = require('../models/user');
 
-// Require the controllers WHICH WE DID NOT CREATE YET!!
 var user_controller = require("../controllers/auth");
 
 router.post('/token', function(req, res) {
