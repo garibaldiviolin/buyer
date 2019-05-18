@@ -7,15 +7,15 @@ var ProductSchema = new Schema({
 });
 
 ProductSchema.methods.toJSON = function() {
-  var obj = this.toObject();
+    var obj = this.toObject();
 
-  Object.keys(obj).forEach(function(element, key, _array) {
-    if (['_id', 'price', 'name'].includes(element) == false) {
-      delete obj[element];
-    }
-  });
+    Object.keys(obj).forEach(function(element, key, _array) {
+        if (['_id', 'price', 'name'].includes(element) == false) {
+            delete obj[element];
+        }
+    });
 
-  return obj
+    return obj
 }
 
 // Export the model
