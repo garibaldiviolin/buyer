@@ -10,8 +10,6 @@ var User = require('../models/user');
 var user_controller = require("../controllers/auth");
 
 router.post('/token', function(req, res) {
-    console.log(req.body.username);
-    console.log(req.body.password);
     if (req.body.username && req.body.password) {
         var username = req.body.username;
         var password = req.body.password;

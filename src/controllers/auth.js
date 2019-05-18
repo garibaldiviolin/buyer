@@ -11,14 +11,11 @@ var params = {
 
 module.exports = function() {
     var strategy = new Strategy(params, function(payload, done) {
-        console.log("payload"+payload);
         if (!'id' in payload) {
-            console.log("nao achou payload");
             return done(new Error("User not found"), null);
         }
 
         if (!'exp' in payload) {
-            console.log("nao achou exp");
             return done(new Error("Expiration not found"), null);
         }
 

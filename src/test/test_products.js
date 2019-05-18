@@ -212,11 +212,9 @@ describe('API Tests', function() {
             expect({}).to.deep.equal(res.body);
 
             const product_query = Product.findById(doc._id, function (err, object) {
-              console.log('entrou aqui');
               if (err) done(err);
             }).then((deleted_product) => {
               if (!deleted_product) return done();
-              console.log(deleted_product);
               done('Product still exists!');
             }).catch(err => {
               done();
