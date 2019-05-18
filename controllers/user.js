@@ -1,7 +1,7 @@
-var user = require('../models/user');
+var User = require('../models/user');
 
 exports.user_create = function (req, res) {
-    var user = new user(
+    var user = new User(
         {
             username: req.body.username,
             password: req.body.password
@@ -19,7 +19,7 @@ exports.user_create = function (req, res) {
 };
 
 exports.user_list = function (req, res) {
-    user.find({}, function(err, users) {
+    User.find({}, function(err, users) {
         var usersList = [];
 
         users.forEach(function(user) {
@@ -31,7 +31,7 @@ exports.user_list = function (req, res) {
 };
 
 exports.user_details = function (req, res) {
-    user.findById(req.params.id, function (err, user) {
+    User.findById(req.params.id, function (err, user) {
         if (err) {
             res.status(404).send({ error: err });
             return;
@@ -41,7 +41,7 @@ exports.user_details = function (req, res) {
 };
 
 exports.user_update = function (req, res) {
-    user.findOneAndReplace(req.params.id, {$set: req.body}, function (err, user) {
+    User.findOneAndReplace(req.params.id, {$set: req.body}, function (err, user) {
     }).then((user) => {
         if (!user) return res.status(404).send({error: "not found"});
         return res.send(user);
@@ -51,7 +51,7 @@ exports.user_update = function (req, res) {
 };
 
 exports.user_delete = function (req, res) {
-    user.findOneAndDelete(req.params.id, function (err, car) {
+    User.findOneAndDelete(req.params.id, function (err, car) {
         res.status(204).send();
     })
 };
