@@ -4,10 +4,48 @@ var app = require('../app'),
   chai = require('chai'),
   request = require('supertest'),
   Product = require('../models/product'),
-  test = require('../config/test');
+  User = require('../models/user'),
+  test = require('../config/test'),
+  mongoose = require('mongoose');
 
 var expect = chai.expect;
+
+var token;
+
+const create_token = async function() {
+  var user_json = {
+    username: "test_user",
+    password: "test_password"
+  }
+
+  var user = new User(
+    user_json
+  );
+
+  await user
+    .save()
+    .then()
+    .catch(err => {
+      throw err;
+    });
+
+  const res = await request(app) .post('/auth/token') .send(user_json);
+  expect(res.statusCode).to.equal(200);
+  token = res.body.token;
+}
+
+
 describe('API Tests', function() {
+  before((done) => {
+    mongoose.connect(test.db, function(){
+      mongoose.connection.db.dropDatabase(function(){
+          done()
+      })
+    })
+
+    create_token();
+  });
+
   var product = {
     "name": "OK",
     "price": 10
@@ -76,7 +114,7 @@ describe('API Tests', function() {
   // List Products (GET) endpoint
   describe('## List products ', function() {
     it('should NOT return any product', function(done) {
-      request(app) .get('/products/list') .send() .end(function(err, res) {
+      request(app) .get('/products/list') .set('Authorization', 'Bearer ' + token) .send() .end(function(err, res) {
         expect(res.statusCode).to.equal(200);
         expect([]).to.deep.equal(res.body);
         done();
@@ -90,7 +128,7 @@ describe('API Tests', function() {
       ];
       Product.insertMany(array)
         .then(function (docs) {
-          request(app) .get('/products/list') .send() .end(function(err, res) {
+          request(app) .get('/products/list') .set('Authorization', 'Bearer ' + token) .send() .end(function(err, res) {
             var productsList = [];
 
             docs.forEach(function(product) {
