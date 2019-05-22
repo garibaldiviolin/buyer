@@ -25,7 +25,7 @@ const create_token = async function(done) {
     await mongoose.connect(test.db, function(){
         mongoose.connection.db.dropDatabase(function(){
         })
-    })
+    });
 
     await user
     .save()
