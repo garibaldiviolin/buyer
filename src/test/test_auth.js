@@ -18,37 +18,34 @@ var user_json = {
     password: "test_password"
 }
 
-const create_token = async function() {
+const create_token = async function(done) {
 
     var user = new User(
         user_json
         );
+
+    await mongoose.connect(test.db, function(){
+        mongoose.connection.db.dropDatabase(function(){})
+    })
 
     await user
     .save()
     .then()
     .catch(err => {
         throw err;
-    });
-
-    console.log('passou');
+    });    
 
     const res = await request(app) .post('/auth/token') .send(user_json);
     expect(res.statusCode).to.equal(200);
     token = res.body.token;
+    done();
 }
 
 
 describe('JWT Authentication Tests', function() {
 
     before((done) => {
-        mongoose.connect(test.db, function(){
-            mongoose.connection.db.dropDatabase(function(){
-                done();
-            })
-        })
-
-        create_token();
+        create_token(done);
     });
 
     // Generate JWT token (POST) endpoint
@@ -63,6 +60,19 @@ describe('JWT Authentication Tests', function() {
                              "ZjMiJ9.J3elAubvxyaXoZDgla" +
                              "2vSIBUGSUOU8LuPrWHOsQmIKk"
                 });
+                done();
+            });
+        });
+    });
+
+    // Test generation of JWT token (POST) endpoint using invalid username
+    describe('## Generate new token with invalid username ', function() {
+        it('should NOT create a token', function(done) {
+            var user_copy = JSON.parse(JSON.stringify(user_json));
+            user_copy.username = 'test';
+            request(app) .post('/auth/token') .send(user_copy) .end(function(err, res) {
+                expect(res.statusCode).to.equal(401);
+                expect(res.body).to.deep.equal({});
                 done();
             });
         });
