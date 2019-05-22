@@ -79,4 +79,15 @@ describe('JWT Authentication Tests', function() {
         });
     });
 
+    // Test Authentication with invalid token
+    describe('## Authenticate with invalid token ', function() {
+        it('should NOT accept token', function(done) {
+            request(app) .get('/products/list') .set('Authorization', 'Bearer ' + "AAA") .send() .end(function(err, res) {
+                expect(res.statusCode).to.equal(401);
+                expect(res.body).to.deep.equal({});
+                done();
+            });
+        });
+    });
+
 });
