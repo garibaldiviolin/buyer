@@ -15,9 +15,9 @@ module.exports = function() {
             return done(new Error("User not found"), null);
         }
 
-        if (!'exp' in payload) {
+        /*if (!'exp' in payload) {
             return done(new Error("Expiration not found"), null);
-        }
+        }*/
 
         return done(null, {id: payload._id});
 
