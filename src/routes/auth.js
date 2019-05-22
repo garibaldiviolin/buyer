@@ -14,9 +14,9 @@ router.post('/token', function(req, res) {
         var username = req.body.username;
         var password = req.body.password;
 
-        var query = User.findOne({"username": username}).then(function (user) {
+        var query = User.findOne({"username": username}, function (err, user) {
+            if (err || !user) return res.sendStatus(401);
             user.comparePassword(password, function(err, isMatch) {
-                if (err) return res.sendStatus(401);
                 if (!isMatch) return res.sendStatus(401);
                 var payload = {id: user._id};
                 var token = jwt.encode(payload, cfg.jwtSecret);
