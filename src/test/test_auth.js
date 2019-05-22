@@ -18,15 +18,11 @@ var user_json = {
     password: "test_password"
 }
 
-const create_token = async function(done) {
+const create_token = async function() {
 
     var user = new User(
         user_json
         );
-
-    await mongoose.connect(test.db, function(){
-        mongoose.connection.db.dropDatabase(function(){})
-    })
 
     await user
     .save()
@@ -38,14 +34,19 @@ const create_token = async function(done) {
     const res = await request(app) .post('/auth/token') .send(user_json);
     expect(res.statusCode).to.equal(200);
     token = res.body.token;
-    done();
 }
 
 
 describe('JWT Authentication Tests', function() {
 
     before((done) => {
-        create_token(done);
+        mongoose.connect(test.db, function(){
+            mongoose.connection.db.dropDatabase(function(){
+                done();
+            })
+        })
+
+        create_token();
     });
 
     // Generate JWT token (POST) endpoint
