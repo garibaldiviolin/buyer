@@ -92,6 +92,32 @@ describe('JWT Authentication Tests', function() {
         });
     });
 
+    // Test generation of JWT token (POST) endpoint without username
+    describe('## Generate new token without username ', function() {
+        it('should NOT create a token', function(done) {
+            var user_copy = JSON.parse(JSON.stringify(user_json));
+            delete user_copy.username;
+            request(app) .post('/auth/token') .send(user_copy) .end(function(err, res) {
+                expect(res.statusCode).to.equal(401);
+                expect(res.body).to.deep.equal({});
+                done();
+            });
+        });
+    });
+
+    // Test generation of JWT token (POST) endpoint without password
+    describe('## Generate new token without password ', function() {
+        it('should NOT create a token', function(done) {
+            var user_copy = JSON.parse(JSON.stringify(user_json));
+            delete user_copy.password;
+            request(app) .post('/auth/token') .send(user_copy) .end(function(err, res) {
+                expect(res.statusCode).to.equal(401);
+                expect(res.body).to.deep.equal({});
+                done();
+            });
+        });
+    });
+
     // Test Authentication with valid token
     describe('## Authenticate with valid token ', function() {
         it('should accept token', function(done) {
