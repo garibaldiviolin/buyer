@@ -37,7 +37,6 @@ const create_token = async function(done) {
     const res = await request(app) .post('/auth/token') .send(user_json);
     expect(res.statusCode).to.equal(200);
     token = res.body.token;
-    console.log("auhuhasduhasdhuaduhasd="+token);
     done();
 }
 
