@@ -12,7 +12,7 @@ var expect = chai.expect;
 
 var token;
 
-const create_token = async function() {
+const create_token = async function(done) {
     var user_json = {
         username: "test_user",
         password: "test_password"
@@ -21,6 +21,11 @@ const create_token = async function() {
     var user = new User(
         user_json
         );
+
+    await mongoose.connect(test.db, function(){
+        mongoose.connection.db.dropDatabase(function(){
+        })
+    })
 
     await user
     .save()
@@ -33,18 +38,13 @@ const create_token = async function() {
     expect(res.statusCode).to.equal(200);
     token = res.body.token;
     console.log("auhuhasduhasdhuaduhasd="+token);
+    done();
 }
 
 
 describe('API Tests', function() {
     before((done) => {
-        mongoose.connect(test.db, function(){
-            mongoose.connection.db.dropDatabase(function(){
-                done();
-            })
-        })
-
-        create_token();
+        create_token(done);
     });
 
     var product = {
