@@ -79,6 +79,19 @@ describe('JWT Authentication Tests', function() {
         });
     });
 
+    // Test generation of JWT token (POST) endpoint using invalid password
+    describe('## Generate new token with invalid password ', function() {
+        it('should NOT create a token', function(done) {
+            var user_copy = JSON.parse(JSON.stringify(user_json));
+            user_copy.password = 'yyyy';
+            request(app) .post('/auth/token') .send(user_copy) .end(function(err, res) {
+                expect(res.statusCode).to.equal(401);
+                expect(res.body).to.deep.equal({});
+                done();
+            });
+        });
+    });
+
     // Test Authentication with valid token
     describe('## Authenticate with valid token ', function() {
         it('should accept token', function(done) {
