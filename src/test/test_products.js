@@ -41,7 +41,7 @@ const create_token = async function(done) {
 }
 
 
-describe('API Tests', function() {
+describe('API Product Tests', function() {
     before((done) => {
         create_token(done);
     });
