@@ -12,10 +12,8 @@ var expect = chai.expect;
 
 const create_token = async function(done) {
 
-    await mongoose.connect(test.db, function(){
-        mongoose.connection.db.dropDatabase(function(){
-        })
-    });
+    await mongoose.connect(test.db);
+    await mongoose.connection.db.dropDatabase();
     done();
 }
 
