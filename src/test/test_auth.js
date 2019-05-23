@@ -18,7 +18,10 @@ var user_json = {
     password: "test_password"
 }
 
-const create_token = async function() {
+const create_token = async function(done) {
+
+    await mongoose.connect(test.db, { useNewUrlParser: true });
+    await mongoose.connection.db.dropDatabase();
 
     var user = new User(
         user_json
@@ -29,24 +32,30 @@ const create_token = async function() {
     .then()
     .catch(err => {
         throw err;
-    });    
+    });
 
-    const res = await request(app) .post('/auth/token') .send(user_json);
+    await User.count({}, function(err, c) {
+        console.log('Count is ' + c);
+    });
+
+    var user_copy = JSON.parse(JSON.stringify(user_json));
+    delete user_copy._id;
+    const res = await request(app) .post('/auth/token') .send(user_copy);
     expect(res.statusCode).to.equal(200);
     token = res.body.token;
+    console.log('token='+token);
+
+    await User.count({}, function(err, c) {
+        console.log('asddasaasd is ' + c);
+    });
+    done();
 }
 
 
 describe('JWT Authentication Tests', function() {
 
     before((done) => {
-        mongoose.connect(test.db, function(){
-            mongoose.connection.db.dropDatabase(function(){
-                done();
-            })
-        })
-
-        create_token();
+        create_token(done);
     });
 
     // Generate JWT token (POST) endpoint
