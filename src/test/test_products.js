@@ -22,10 +22,8 @@ const create_token = async function(done) {
         user_json
         );
 
-    await mongoose.connect(test.db, function(){
-        mongoose.connection.db.dropDatabase(function(){
-        })
-    });
+    await mongoose.connect(test.db, { useNewUrlParser: true });
+    await mongoose.connection.db.dropDatabase();
 
     await user
     .save()
@@ -34,7 +32,9 @@ const create_token = async function(done) {
         throw err;
     });
 
-    const res = await request(app) .post('/auth/token') .send(user_json);
+    var user_copy = JSON.parse(JSON.stringify(user_json));
+    delete user_copy._id;
+    const res = await request(app) .post('/auth/token') .send(user_copy);
     expect(res.statusCode).to.equal(200);
     token = res.body.token;
     done();
