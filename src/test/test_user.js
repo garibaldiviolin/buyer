@@ -12,7 +12,7 @@ var expect = chai.expect;
 
 const create_token = async function(done) {
 
-    await mongoose.connect(test.db);
+    await mongoose.connect(test.db, { useNewUrlParser: true });
     await mongoose.connection.db.dropDatabase();
     done();
 }
