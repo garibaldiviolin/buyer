@@ -20,12 +20,12 @@ router.post('/token', function(req, res) {
                 if (!isMatch) return res.sendStatus(401);
                 var payload = {id: user._id};
                 var token = jwt.encode(payload, cfg.jwtSecret);
-                res.json({token: token});
+                return res.json({token: token});
             });
         });
     }
     else {
-        res.sendStatus(401);
+        return res.sendStatus(401);
     }
 });
 
