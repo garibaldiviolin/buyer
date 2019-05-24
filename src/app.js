@@ -12,7 +12,10 @@ var config = require('./config/index');
 var mongoose = require('mongoose');
 var dev_db_url = 'mongodb://localhost:27017/buyer';
 var mongoDB = config.db || dev_db_url;
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.connect(mongoDB, {
+    useNewUrlParser: true,
+    useCreateIndex: true
+});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
