@@ -10,43 +10,15 @@ mongoose = require('mongoose');
 
 var expect = chai.expect;
 
+let user_json = {'s': 's'};
 var token;
-
-var user_json = {
-    _id: "5ce499d502b60729218eb6c2",
-    username: "test_user",
-    password: "test_password"
-}
-
-const create_token = async function(done) {
-
-    await mongoose.connect(test.db, { useNewUrlParser: true });
-    await mongoose.connection.db.dropDatabase();
-
-    var user = new User(
-        user_json
-        );
-
-    await user
-    .save()
-    .then()
-    .catch(err => {
-        throw err;
-    });
-
-    var user_copy = JSON.parse(JSON.stringify(user_json));
-    delete user_copy._id;
-    const res = await request(app) .post('/auth/token') .send(user_copy);
-    expect(res.statusCode).to.equal(200);
-    token = res.body.token;
-    done();
-}
-
 
 describe('JWT Authentication Tests', function() {
 
-    before((done) => {
-        create_token(done);
+    beforeEach(async function() {
+        await test.dropDatabase();
+        user_json = await test.createJWTToken(request(app));
+        token = await user_json.token;
     });
 
     // Generate JWT token (POST) endpoint

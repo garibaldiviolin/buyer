@@ -4,23 +4,16 @@ var app = require('../app'),
 chai = require('chai'),
 request = require('supertest'),
 User = require('../models/user'),
-User = require('../models/user'),
 test = require('../config/test'),
 mongoose = require('mongoose');
 
 var expect = chai.expect;
 
-const create_token = async function(done) {
-
-    await mongoose.connect(test.db, { useNewUrlParser: true });
-    await mongoose.connection.db.dropDatabase();
-    done();
-}
-
+var user_json = {};
 
 describe('User Tests', function() {
-    before((done) => {
-        create_token(done);
+    beforeEach(async function() {
+        await test.dropDatabase();
     });
 
     var user = {

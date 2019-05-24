@@ -12,38 +12,14 @@ var expect = chai.expect;
 
 var token;
 
-const create_token = async function(done) {
-    var user_json = {
-        username: "test_user",
-        password: "test_password"
-    }
-
-    var user = new User(
-        user_json
-        );
-
-    await mongoose.connect(test.db, { useNewUrlParser: true });
-    await mongoose.connection.db.dropDatabase();
-
-    await user
-    .save()
-    .then()
-    .catch(err => {
-        throw err;
-    });
-
-    var user_copy = JSON.parse(JSON.stringify(user_json));
-    delete user_copy._id;
-    const res = await request(app) .post('/auth/token') .send(user_copy);
-    expect(res.statusCode).to.equal(200);
-    token = res.body.token;
-    done();
-}
-
-
 describe('API Product Tests', function() {
-    before((done) => {
-        create_token(done);
+
+    var user_json = {};
+
+    beforeEach(async function() {
+        await test.dropDatabase();
+        user_json = await test.createJWTToken(request(app));
+        token = await user_json.token;
     });
 
     var product = {
