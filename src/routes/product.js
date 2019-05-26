@@ -8,14 +8,14 @@ var router = express.Router();
 var product_controller = require('../controllers/product');
 
 
-router.post('/create', product_controller.product_create);
+router.post('/create', auth.authenticate(), product_controller.product_create);
 
 router.get('/list', auth.authenticate(), product_controller.product_list);
 
-router.get('/:id', product_controller.product_details);
+router.get('/:id', auth.authenticate(), product_controller.product_details);
 
-router.put('/:id/update', product_controller.product_update);
+router.put('/:id/update', auth.authenticate(), product_controller.product_update);
 
-router.delete('/:id/delete', product_controller.product_delete);
+router.delete('/:id/delete', auth.authenticate(), product_controller.product_delete);
 
 module.exports = router;

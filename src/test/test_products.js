@@ -30,7 +30,7 @@ describe('API Product Tests', function() {
     // Create Products (POST) endpoint
     describe('## Create product ', function() {
         it('should create a product', function(done) {
-            request(app) .post('/products/create') .send(product) .end(function(err, res) {
+            request(app) .post('/products/create') .send(product) .set('Authorization', 'Bearer ' + token) .end(function(err, res) {
                 expect(res.statusCode).to.equal(201);
                 const product_query = Product.findById(res.body._id, function (err, object) {
                     if (err) done(err);
@@ -44,7 +44,7 @@ describe('API Product Tests', function() {
         });
 
         it('should NOT create a product', function(done) {
-            request(app) .post('/products/create') .send() .end(function(err, res) {
+            request(app) .post('/products/create') .send() .set('Authorization', 'Bearer ' + token) .end(function(err, res) {
                 expect(res.statusCode).to.equal(500);
                 done();
             });
@@ -64,7 +64,7 @@ describe('API Product Tests', function() {
             product
             .save()
             .then(doc => {
-                request(app) .get('/products/' + doc._id) .send() .end(function(err, res) {
+                request(app) .get('/products/' + doc._id) .set('Authorization', 'Bearer ' + token) .send() .end(function(err, res) {
                     expect(res.statusCode).to.equal(200);
                     expect(doc._id.toString()).to.equal(res.body._id);
                     expect("Get product").to.equal(res.body.name);
@@ -78,7 +78,7 @@ describe('API Product Tests', function() {
         });
 
         it('should NOT get a product', function(done) {
-            request(app) .get('/products/INVALID_ID') .send() .end(function(err, res) {
+            request(app) .get('/products/INVALID_ID') .set('Authorization', 'Bearer ' + token) .send() .end(function(err, res) {
                 expect(res.statusCode).to.equal(404);
                 done();
             });
@@ -142,7 +142,7 @@ describe('API Product Tests', function() {
             product
             .save()
             .then(doc => {
-                request(app) .put('/products/' + doc._id.toString() + '/update') .send(new_values) .end(function(err, res) {
+                request(app) .put('/products/' + doc._id.toString() + '/update') .set('Authorization', 'Bearer ' + token) .send(new_values) .end(function(err, res) {
                     var productsList = {
                         _id: doc._id.toString(),
                         name: "New name",
@@ -181,7 +181,7 @@ describe('API Product Tests', function() {
     product
     .save()
     .then(doc => {
-        request(app) .put('/products/' + doc._id.toString() + '/update') .send(new_values) .end(function(err, res) {
+        request(app) .put('/products/' + doc._id.toString() + '/update') .set('Authorization', 'Bearer ' + token) .send(new_values) .end(function(err, res) {
             expect(res.statusCode).to.equal(400);
             done();
         });
@@ -197,7 +197,7 @@ describe('API Product Tests', function() {
                 price: 45.42
             }
 
-            request(app) .put('/products/INVALID_ID/update') .send(new_values) .end(function(err, res) {
+            request(app) .put('/products/INVALID_ID/update') .set('Authorization', 'Bearer ' + token) .send(new_values) .end(function(err, res) {
                 expect(res.statusCode).to.equal(404);
                 expect(res.body).to.deep.equal({ error: 'not found'});
                 done();
@@ -219,7 +219,7 @@ describe('API Product Tests', function() {
             product
             .save()
             .then(doc => {
-                request(app) .delete('/products/' + doc._id.toString() + '/delete') .send() .end(function(err, res) {
+                request(app) .delete('/products/' + doc._id.toString() + '/delete') .set('Authorization', 'Bearer ' + token) .send() .end(function(err, res) {
                     expect(res.statusCode).to.equal(204);
                     expect({}).to.deep.equal(res.body);
 
@@ -244,7 +244,7 @@ describe('API Product Tests', function() {
                 price: 45.42
             }
 
-            request(app) .put('/products/INVALID_ID/delete') .send(new_values) .end(function(err, res) {
+            request(app) .put('/products/INVALID_ID/delete') .set('Authorization', 'Bearer ' + token) .send(new_values) .end(function(err, res) {
                 expect(res.statusCode).to.equal(404);
                 done();
             });
