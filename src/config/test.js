@@ -48,6 +48,8 @@ module.exports = {
   env: 'test',
   db: 'mongodb://localhost:27017/test',
   port: process.env.PORT || 1233,
+  jwtSecret: "MyS3cr3tK3Y",
+  jwtSession: {session: false},
   createJWTToken: createJWTToken,
   dropDatabase: dropDatabase
 };
