@@ -10,7 +10,7 @@ var params = {
 };
 
 module.exports = function() {
-    var strategy = new Strategy(params, function(payload, done) {
+    var strategy = new Strategy(params, function(payload, done) {        
         if (!('id' in payload)) {
             return done(null, false, { message: 'Unauthorized' });
         }
