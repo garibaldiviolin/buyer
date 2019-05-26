@@ -27,9 +27,7 @@ describe('User Tests', function() {
             request(app) .post('/users/create') .send(user) .end(function(err, res) {
                 expect(res.statusCode).to.equal(201);
                 const user_query = User.findById(res.body._id, function (err, object) {
-                    if (err) {
-                        return null;
-                    }
+                    if (err) done(err);
                     return object;
                 }).then((user) => {
                     expect(user.username).to.equal(res.body.username);

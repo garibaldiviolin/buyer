@@ -33,9 +33,7 @@ describe('API Product Tests', function() {
             request(app) .post('/products/create') .send(product) .end(function(err, res) {
                 expect(res.statusCode).to.equal(201);
                 const product_query = Product.findById(res.body._id, function (err, object) {
-                    if (err) {
-                        return null;
-                    }
+                    if (err) done(err);
                     return object;
                 }).then((product) => {
                     expect(product.name).to.equal(res.body.name);
