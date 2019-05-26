@@ -26,13 +26,9 @@ describe('JWT Authentication Tests', function() {
         it('should create a token', function(done) {
             request(app) .post('/auth/token') .send(user_json) .end(function(err, res) {
                 expect(res.statusCode).to.equal(200);
-                expect(res.body).to.deep.equal({
-                    "token": "eyJ0eXAiOiJKV1QiLCJhbGciO" +
-                             "iJIUzI1NiJ9.eyJpZCI6IjVjZ" +
-                             "TQ5OWQ1MDJiNjA3MjkyMThlYj" +
-                             "ZjMiJ9.J3elAubvxyaXoZDgla" +
-                             "2vSIBUGSUOU8LuPrWHOsQmIKk"
-                });
+                expect(res.body).to.have.property("token");
+                const returned_token = res.body.token;
+                expect(res.body).to.deep.equal({token: returned_token});
                 done();
             });
         });
