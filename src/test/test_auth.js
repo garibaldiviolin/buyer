@@ -127,4 +127,18 @@ describe('JWT Authentication Tests', function() {
         });
     });
 
+    // Test Authentication using token with invalid id ("id": "ZZZ")
+    describe('## Authenticate using token with invalid id ', function() {
+        it('should NOT accept token', function(done) {
+            const invalid_id_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1" +
+                                     "NiJ9.eyJpZCI6IlpaWiJ9.d5Y5opaIDx" +
+                                     "VLmIrDMtN86sdM8dNm8UCqV7Z0roedwi4"
+            request(app) .get('/products/list') .set('Authorization', 'Bearer ' + invalid_id_token) .send() .end(function(err, res) {
+                expect(res.statusCode).to.equal(401);
+                expect(res.body).to.deep.equal({});
+                done();
+            });
+        });
+    });
+
 });
