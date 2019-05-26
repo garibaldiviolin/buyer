@@ -112,4 +112,19 @@ describe('JWT Authentication Tests', function() {
         });
     });
 
+    // Test Authentication using token without id
+    describe('## Authenticate using token without id ', function() {
+        it('should NOT accept token', function(done) {
+            const token_without_id = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1N" +
+                                     "iJ9.eyJpbnZhbGlkIjoiNWNlYjE3ZmUzN" +
+                                     "jljM2YyMTM4ZDEzODM0In0.C8nxwC-bRf" +
+                                     "GOjjeruhTZpl1kLoQWn1EdRUhxVHvB20g"
+            request(app) .get('/products/list') .set('Authorization', 'Bearer ' + token_without_id) .send() .end(function(err, res) {
+                expect(res.statusCode).to.equal(401);
+                expect(res.body).to.deep.equal({});
+                done();
+            });
+        });
+    });
+
 });
