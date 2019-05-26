@@ -3,6 +3,9 @@ var jwt = require("jwt-simple");
 var auth = require("../controllers/auth.js")();
 var cfg = require("../config/index");
 var express = require('express');
+var moment = require("moment");
+
+
 var router = express.Router();
 
 var User = require('../models/user');
@@ -18,7 +21,11 @@ router.post('/token', function(req, res) {
             if (err || !user) return res.sendStatus(401);
             user.comparePassword(password, function(err, isMatch) {
                 if (!isMatch) return res.sendStatus(401);
-                var payload = {id: user._id};
+                let expires = moment().utc().add({ minutes: 30 }).unix();
+                var payload = {
+                    id: user._id,
+                    exp: expires
+                };
                 var token = jwt.encode(payload, cfg.jwtSecret);
                 return res.json({token: token});
             });
