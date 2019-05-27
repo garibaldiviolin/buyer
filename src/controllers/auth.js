@@ -15,7 +15,7 @@ module.exports = function() {
             return done(null, false, { message: 'Unauthorized' });
         }
 
-        if (!'exp' in payload) {
+        if (!('exp' in payload)) {
             return done(null, false, { message: 'Unauthorized' });            
         }
 
