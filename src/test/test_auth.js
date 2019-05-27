@@ -123,12 +123,41 @@ describe('JWT Authentication Tests', function() {
         });
     });
 
+    // Test Authentication using token without 'exp' field
+    describe('## Authenticate using token without expiration ', function() {
+        it('should NOT accept token', function(done) {
+            const token_without_exp = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjVj" +
+                                      "ZWIyNzJjMjg1OWEyM2U5MGM5MWY4OCJ9.zBuVQalol6nVSYCa" +
+                                      "CMN_IGIcAwymPGDBRGA8dhDVYWk"
+            request(app) .get('/products/list') .set('Authorization', 'Bearer ' + token_without_exp) .send() .end(function(err, res) {
+                expect(res.statusCode).to.equal(401);
+                expect(res.body).to.deep.equal({});
+                done();
+            });
+        });
+    });
+
     // Test Authentication using token with invalid id ("id": "ZZZ")
     describe('## Authenticate using token with invalid id ', function() {
         it('should NOT accept token', function(done) {
             const invalid_id_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1" +
                                      "NiJ9.eyJpZCI6IlpaWiJ9.d5Y5opaIDx" +
                                      "VLmIrDMtN86sdM8dNm8UCqV7Z0roedwi4"
+            request(app) .get('/products/list') .set('Authorization', 'Bearer ' + invalid_id_token) .send() .end(function(err, res) {
+                expect(res.statusCode).to.equal(401);
+                expect(res.body).to.deep.equal({});
+                done();
+            });
+        });
+    });
+
+    // Test Authentication using expired token (in 2005-03-17)
+    describe('## Authenticate using expired token ', function() {
+        it('should NOT accept token', function(done) {
+            const invalid_id_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." +
+                                     "eyJpZCI6IjVjZWIyNzJjMjg1OWEyM2U5MGM5M" +
+                                     "WY4OCIsImV4cCI6MTExMTExMTExMX0.yEMsWL" +
+                                     "h61A7U0TxwlObMyLp70OFhm37_y--wDgr7C-M"
             request(app) .get('/products/list') .set('Authorization', 'Bearer ' + invalid_id_token) .send() .end(function(err, res) {
                 expect(res.statusCode).to.equal(401);
                 expect(res.body).to.deep.equal({});
