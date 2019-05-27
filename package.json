@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/app.js",
     "test": "NODE_ENV=test _mocha src/test --exit",
-    "test-coverage": "NODE_ENV=test nyc --reporter=html _mocha -- -R spec --exit --recursive src/test/"
+    "test-coverage": "NODE_ENV=test nyc --check-coverage --lines 90 --reporter=html _mocha -- -R spec --exit --recursive src/test/"
   },
   "keywords": [
     "buyer"
