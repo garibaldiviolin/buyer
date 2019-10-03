@@ -1,1 +1,6 @@
-{"extends": "strongloop"}
+{
+  "extends": "strongloop",
+  "rules": {
+    "max-len": [2, 120, 8]
+  }
+}
