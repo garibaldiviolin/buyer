@@ -1,6 +1,6 @@
-var bodyParser = require("body-parser");
-var jwt = require("jwt-simple");
-var cfg = require("../config/development.js");
+var bodyParser = require('body-parser');
+var jwt = require('jwt-simple');
+var cfg = require('../config/development.js');
 var express = require('express');
 var router = express.Router();
 
