@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon src/app.js",
     "test": "NODE_ENV=test _mocha src/test --exit",
-    "test-coverage": "NODE_ENV=test nyc --check-coverage --lines 90 --reporter=html _mocha -- -R spec --exit --recursive src/test/"
+    "test-coverage": "NODE_ENV=test nyc --check-coverage --lines 90 --reporter=html _mocha -- -R spec --exit --recursive src/test/",
+    "pretest": "eslint --ignore-path .gitignore .",
+    "reformat": "eslint --fix --fix-type layout --ignore-path .gitignore ."
   },
   "keywords": [
     "buyer"
@@ -25,10 +27,12 @@
   },
   "devDependencies": {
     "chai": "4.2.0",
+    "eslint": "^6.5.1",
+    "eslint-config-strongloop": "^2.1.0",
     "mocha": "6.1.4",
-    "nyc": "14.1.1",
     "node-mongodb-fixtures": "3.0.5",
     "nodemon": "1.19.0",
+    "nyc": "14.1.1",
     "supertest": "4.0.2"
   }
 }
