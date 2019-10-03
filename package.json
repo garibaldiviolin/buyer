@@ -8,7 +8,8 @@
     "test": "NODE_ENV=test _mocha src/test --exit",
     "test-coverage": "NODE_ENV=test nyc --check-coverage --lines 90 --reporter=html _mocha -- -R spec --exit --recursive src/test/",
     "pretest": "eslint --ignore-path .gitignore .",
-    "reformat": "eslint --fix --fix-type layout --ignore-path .gitignore ."
+    "reformat": "prettier --single-quote --trailing-comma es5 --print-width 80 --write --no-bracket-spacing src/**/*.js src/*.js",
+    "fix": "eslint --fix --fix-type layout --ignore-path .gitignore ."
   },
   "keywords": [
     "buyer"
