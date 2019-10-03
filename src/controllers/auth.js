@@ -12,16 +12,16 @@ var params = {
 module.exports = function() {
   var strategy = new Strategy(params, function(payload, done) {
     if (!('id' in payload)) {
-      return done(null, false, { message: 'Unauthorized' });
+      return done(null, false, {message: 'Unauthorized'});
     }
 
     if (!('exp' in payload)) {
-      return done(null, false, { message: 'Unauthorized' });
+      return done(null, false, {message: 'Unauthorized'});
     }
 
     User.findById(payload.id, function(err, user) {
       if (err || !user) {
-        return done(null, false, { message: 'Unauthorized' });
+        return done(null, false, {message: 'Unauthorized'});
       }
       return done(null, {id: user._id});
     });

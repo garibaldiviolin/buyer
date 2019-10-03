@@ -6,7 +6,6 @@ var router = express.Router();
 
 var user_controller = require('../controllers/user');
 
-
 router.post('/create', user_controller.user_create);
 
 router.get('/list', user_controller.user_list);

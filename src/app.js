@@ -7,14 +7,13 @@ var auth = require('./routes/auth');
 var app = express();
 var config = require('./config/index');
 
-
 // Set up mongoose connection
 var mongoose = require('mongoose');
 var dev_db_url = 'mongodb://localhost:27017/buyer';
 var mongoDB = config.db || dev_db_url;
 mongoose.connect(mongoDB, {
-    useNewUrlParser: true,
-    useCreateIndex: true
+  useNewUrlParser: true,
+  useCreateIndex: true,
 });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -29,7 +28,7 @@ app.use('/auth', auth);
 var port = config.port || 1234;
 
 app.listen(port, () => {
-    console.log('Server is up and running on port number ' + port);
+  console.log('Server is up and running on port number ' + port);
 });
 
 module.exports = app;
